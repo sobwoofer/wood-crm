@@ -1,9 +1,9 @@
 version: '3.7'
 
 services:
-  mysql:
+  database:
     ports:
-      - "33064:3306"
+      - "55432:5432"
   redis:
     ports:
       - "63794:6379"

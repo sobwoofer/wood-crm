@@ -1,7 +1,7 @@
 FROM devilbox/php-fpm-7.4:latest
 
-RUN apt-get update && apt-get install -y libmcrypt-dev mariadb-client \
-    && docker-php-ext-install pdo_mysql pcntl \
+RUN apt-get update && apt-get install -y libmcrypt-dev libpq-dev \
+    && docker-php-ext-install pdo_pgsql pcntl \
     && pecl install xdebug-3.0.0 \
     && docker-php-ext-enable xdebug
 
