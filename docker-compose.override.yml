@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  mysql:
+    ports:
+      - "33064:3306"
+  redis:
+    ports:
+      - "63794:6379"
+  php-fpm:
+    expose:
+      - "9000"
+  nginx:
+    ports:
+      - "4445:443"
+      - "8384:80"
+

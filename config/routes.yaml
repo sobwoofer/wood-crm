@@ -1,0 +1,7 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+app_wood_crm:
+  path: /about
+  controller: App\Controller\AboutController::index
