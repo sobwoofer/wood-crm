@@ -1,0 +1,373 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=OrderRepository::class)
+ * @ORM\Table(name="`order`")
+ */
+class Order
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $deadline;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $file;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $shipped_date;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $buyer_phone;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $buyer_name;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $buyer_last_name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $buyer_address;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $shipping_id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $manager_id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $payment_status;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $prepaid;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $accountant_comment;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $manager_comment;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $supervisor_comment;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $driver_id;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="order_id", orphanRemoval=true)
+     */
+    private $orderProducts;
+
+    public function __construct()
+    {
+        $this->orderProducts = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDeadline(): ?\DateTimeInterface
+    {
+        return $this->deadline;
+    }
+
+    public function setDeadline(\DateTimeInterface $deadline): self
+    {
+        $this->deadline = $deadline;
+
+        return $this;
+    }
+
+    public function getFile(): ?string
+    {
+        return $this->file;
+    }
+
+    public function setFile(?string $file): self
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    public function getShippedDate(): ?\DateTimeInterface
+    {
+        return $this->shipped_date;
+    }
+
+    public function setShippedDate(\DateTimeInterface $shipped_date): self
+    {
+        $this->shipped_date = $shipped_date;
+
+        return $this;
+    }
+
+    public function getBuyerPhone(): ?string
+    {
+        return $this->buyer_phone;
+    }
+
+    public function setBuyerPhone(?string $buyer_phone): self
+    {
+        $this->buyer_phone = $buyer_phone;
+
+        return $this;
+    }
+
+    public function getBuyerName(): ?string
+    {
+        return $this->buyer_name;
+    }
+
+    public function setBuyerName(string $buyer_name): self
+    {
+        $this->buyer_name = $buyer_name;
+
+        return $this;
+    }
+
+    public function getBuyerLastName(): ?string
+    {
+        return $this->buyer_last_name;
+    }
+
+    public function setBuyerLastName(?string $buyer_last_name): self
+    {
+        $this->buyer_last_name = $buyer_last_name;
+
+        return $this;
+    }
+
+    public function getBuyerAddress(): ?string
+    {
+        return $this->buyer_address;
+    }
+
+    public function setBuyerAddress(?string $buyer_address): self
+    {
+        $this->buyer_address = $buyer_address;
+
+        return $this;
+    }
+
+    public function getShippingId(): ?int
+    {
+        return $this->shipping_id;
+    }
+
+    public function setShippingId(int $shipping_id): self
+    {
+        $this->shipping_id = $shipping_id;
+
+        return $this;
+    }
+
+    public function getManagerId(): ?int
+    {
+        return $this->manager_id;
+    }
+
+    public function setManagerId(int $manager_id): self
+    {
+        $this->manager_id = $manager_id;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPaymentStatus(): ?string
+    {
+        return $this->payment_status;
+    }
+
+    public function setPaymentStatus(string $payment_status): self
+    {
+        $this->payment_status = $payment_status;
+
+        return $this;
+    }
+
+    public function getPrepaid(): ?float
+    {
+        return $this->prepaid;
+    }
+
+    public function setPrepaid(?float $prepaid): self
+    {
+        $this->prepaid = $prepaid;
+
+        return $this;
+    }
+
+    public function getAccountantComment(): ?string
+    {
+        return $this->accountant_comment;
+    }
+
+    public function setAccountantComment(?string $accountant_comment): self
+    {
+        $this->accountant_comment = $accountant_comment;
+
+        return $this;
+    }
+
+    public function getManagerComment(): ?string
+    {
+        return $this->manager_comment;
+    }
+
+    public function setManagerComment(?string $manager_comment): self
+    {
+        $this->manager_comment = $manager_comment;
+
+        return $this;
+    }
+
+    public function getSupervisorComment(): ?string
+    {
+        return $this->supervisor_comment;
+    }
+
+    public function setSupervisorComment(?string $supervisor_comment): self
+    {
+        $this->supervisor_comment = $supervisor_comment;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function getDriverId(): ?int
+    {
+        return $this->driver_id;
+    }
+
+    public function setDriverId(int $driver_id): self
+    {
+        $this->driver_id = $driver_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderProduct[]
+     */
+    public function getOrderProducts(): Collection
+    {
+        return $this->orderProducts;
+    }
+
+    public function addOrderProduct(OrderProduct $orderProduct): self
+    {
+        if (!$this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts[] = $orderProduct;
+            $orderProduct->setOrderId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderProduct(OrderProduct $orderProduct): self
+    {
+        if ($this->orderProducts->removeElement($orderProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($orderProduct->getOrderId() === $this) {
+                $orderProduct->setOrderId(null);
+            }
+        }
+
+        return $this;
+    }
+}
