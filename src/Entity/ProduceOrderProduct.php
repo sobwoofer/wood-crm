@@ -18,12 +18,6 @@ class ProduceOrderProduct
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $performer_id;
-
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $manager_comment;
@@ -59,6 +53,11 @@ class ProduceOrderProduct
     private $status;
 
     /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="pro")
+     */
+    private $performer;
+
+    /**
      * @ORM\OneToOne(targetEntity=OrderProduct::class, inversedBy="produceOrderProduct", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -67,18 +66,6 @@ class ProduceOrderProduct
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPerformerId(): ?int
-    {
-        return $this->performer_id;
-    }
-
-    public function setPerformerId(int $performer_id): self
-    {
-        $this->performer_id = $performer_id;
-
-        return $this;
     }
 
     public function getManagerComment(): ?string
@@ -173,6 +160,18 @@ class ProduceOrderProduct
     public function setOrderProduct(OrderProduct $orderProduct): self
     {
         $this->orderProduct = $orderProduct;
+
+        return $this;
+    }
+
+    public function getPerformer(): ?User
+    {
+        return $this->performer;
+    }
+
+    public function setPerformer(?User $performer): self
+    {
+        $this->performer = $performer;
 
         return $this;
     }

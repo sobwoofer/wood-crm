@@ -18,34 +18,31 @@ services:
       dockerfile: docker/php-fpm.docker
     volumes:
       - ./:/var/www
-
+      - ./docker/php-config/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     environment:
       DB_PORT: "5432"
       DB_HOST: "database"
       REDIS_PORT: "6379"
       REDIS_HOST: "redis"
       PHP_IDE_CONFIG: "serverName=docker"
-      XDEBUG_CONFIG: "remote_port=9000 remote_host=172.17.0.1 remote_enable=1"
   php-cli:
     build:
       context: ./
       dockerfile: docker/php-cli.docker
     volumes:
       - ./:/var/www
-    env_file:
-      - docker-compose.env
+      - ./docker/php-config/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     environment:
       DB_PORT: "5432"
       DB_HOST: "database"
       REDIS_PORT: "6379"
       REDIS_HOST: "redis"
       PHP_IDE_CONFIG: "serverName=docker"
-      XDEBUG_CONFIG: "remote_port=9000 remote_host=172.17.0.1 remote_enable=1"
     tty: true
   database:
     image: postgres:11-alpine
     volumes:
-      - ./docker/volumes/pgsql:/var/lib/pgsql
+      - ./docker/volumes/pgsql:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: main
       POSTGRES_PASSWORD: main

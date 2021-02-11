@@ -13,6 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Order
 {
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_PROCESSING = 'processing';
+    public const STATUS_DONE = 'done';
+    public const STATUS_CANCELED = 'canceled';
+
+    public const PAYMENT_STATUS_PAYED = 'payed';
+    public const PAYMENT_STATUS_PREPAID = 'prepaid';
+    public const PAYMENT_STATUS_NOT_PAYED = 'not_payed';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -36,7 +45,7 @@ class Order
     private $file;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $shipped_date;
 
@@ -61,14 +70,10 @@ class Order
     private $buyer_address;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $shipping_id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $manager_id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -106,18 +111,28 @@ class Order
     private $active;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $driver_id;
-
-    /**
-     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="order_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="order", orphanRemoval=true)
      */
     private $orderProducts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="manageOrders")
+     */
+    private $manager;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="shippedOrders")
+     */
+    private $driver;
 
     public function __construct()
     {
         $this->orderProducts = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getId();
     }
 
     public function getId(): ?int
@@ -233,18 +248,6 @@ class Order
         return $this;
     }
 
-    public function getManagerId(): ?int
-    {
-        return $this->manager_id;
-    }
-
-    public function setManagerId(int $manager_id): self
-    {
-        $this->manager_id = $manager_id;
-
-        return $this;
-    }
-
     public function getStatus(): ?string
     {
         return $this->status;
@@ -329,18 +332,6 @@ class Order
         return $this;
     }
 
-    public function getDriverId(): ?int
-    {
-        return $this->driver_id;
-    }
-
-    public function setDriverId(int $driver_id): self
-    {
-        $this->driver_id = $driver_id;
-
-        return $this;
-    }
-
     /**
      * @return Collection|OrderProduct[]
      */
@@ -367,6 +358,30 @@ class Order
                 $orderProduct->setOrderId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getManager(): ?User
+    {
+        return $this->manager;
+    }
+
+    public function setManager(?User $manager): self
+    {
+        $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getDriver(): ?User
+    {
+        return $this->driver;
+    }
+
+    public function setDriver(?User $driver): self
+    {
+        $this->driver = $driver;
 
         return $this;
     }

@@ -17,7 +17,6 @@ class OrderProduct
      */
     private $id;
 
-
     /**
      * @ORM\Column(type="float", nullable=true)
      */
@@ -42,6 +41,11 @@ class OrderProduct
      * @ORM\Column(type="integer")
      */
     private $quantity;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderProducts")
@@ -112,6 +116,18 @@ class OrderProduct
         return $this;
     }
 
+    public function getName(): ?float
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
     public function getQuantity(): ?int
     {
         return $this->quantity;
@@ -124,18 +140,6 @@ class OrderProduct
         return $this;
     }
 
-    public function getOrderId(): ?Order
-    {
-        return $this->order_id;
-    }
-
-    public function setOrderId(?Order $order_id): self
-    {
-        $this->order_id = $order_id;
-
-        return $this;
-    }
-
     public function getProduct(): ?Product
     {
         return $this->product;
@@ -144,6 +148,18 @@ class OrderProduct
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->product;
+    }
+
+    public function setOrder(?Order $order): self
+    {
+        $this->order = $order;
 
         return $this;
     }
