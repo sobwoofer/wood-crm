@@ -2,8 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Order;
 use App\Entity\OrderProduct;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,7 +21,6 @@ class OrderProductFormType extends AbstractType
             ->add('spent_itr')
             ->add('purchase')
             ->add('quantity')
-            ->add('order')
             ->add('product')
             ->add('produceOrderProduct')
         ;

@@ -1,0 +1,49 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{# this is a bit ugly, but Twig doesn't have a 'is numeric' test #}
+{% if field.formattedValue matches '/^\\d+$/' %}
+    <span class="badge badge-secondary col-sm-12">
+         <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>{{ 'name' }}</th>
+                    <th>{{ 'price' }}</th>
+                    <th>{{ 'product' }}</th>
+                    <th>{{ 'product_article' }}</th>
+                    <th>{{ 'fact_price' }}</th>
+                    <th>{{ 'spent_itr' }}</th>
+                    <th>{{ 'purchase' }}</th>
+                    <th>{{ 'quantity' }}</th>
+                    <th>{{ 'created_at' }}</th>
+                    <th>{{ 'updated_at' }}</th>
+                </tr>
+                </thead>
+                <tbody>
+        {% for field in field.value.getOwner().getOrderProducts() %}
+            {{ _self.render_field(field, 3) }}
+        {% endfor %}
+            </tbody>
+        </table>
+    </span>
+{% else %}
+    {{ field.formattedValue }}
+{% endif %}
+
+
+
+{% macro render_field(field, row_number) %}
+        <tr>
+            <td>{{ field.getName() }}</td>
+            <td>{{ field.getPrice() }}</td>
+            <td>{{ field.getProduct().getName() }}</td>
+            <td>{{ field.getProduct().getArticle() }}</td>
+            <td>{{ field.getFactPrice() }}</td>
+            <td>{{ field.getSpentItr() }}</td>
+            <td>{{ field.getPurchase() }}</td>
+            <td>{{ field.getQuantity() }}</td>
+            <td>{{ field.getCreatedAt().format('Y-m-d H:i:s') }}</td>
+            <td>{{ field.getUpdatedAt().format('Y-m-d H:i:s') }}</td>
+        </tr>
+{% endmacro %}
+

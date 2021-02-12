@@ -7,9 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=OrderProductRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class OrderProduct
 {
+    use Timestamps;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -116,7 +119,7 @@ class OrderProduct
         return $this;
     }
 
-    public function getName(): ?float
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -154,7 +157,7 @@ class OrderProduct
 
     public function getOrder(): ?Order
     {
-        return $this->product;
+        return $this->order;
     }
 
     public function setOrder(?Order $order): self

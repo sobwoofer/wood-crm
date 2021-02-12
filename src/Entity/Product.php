@@ -9,9 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Product
 {
+    use Timestamps;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -153,4 +156,6 @@ class Product
 
         return $this;
     }
+
+
 }

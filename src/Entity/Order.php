@@ -10,9 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=OrderRepository::class)
  * @ORM\Table(name="`order`")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Order
 {
+    use Timestamps;
+
     public const STATUS_PENDING = 'pending';
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_DONE = 'done';
@@ -111,7 +114,7 @@ class Order
     private $active;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="order", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="order", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $orderProducts;
 
@@ -344,7 +347,7 @@ class Order
     {
         if (!$this->orderProducts->contains($orderProduct)) {
             $this->orderProducts[] = $orderProduct;
-            $orderProduct->setOrderId($this);
+            $orderProduct->setOrder($this);
         }
 
         return $this;
@@ -354,8 +357,8 @@ class Order
     {
         if ($this->orderProducts->removeElement($orderProduct)) {
             // set the owning side to null (unless already changed)
-            if ($orderProduct->getOrderId() === $this) {
-                $orderProduct->setOrderId(null);
+            if ($orderProduct->getOrder() === $this) {
+                $orderProduct->setOrder(null);
             }
         }
 

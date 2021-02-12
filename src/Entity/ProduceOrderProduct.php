@@ -7,9 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ProduceOrderProductRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class ProduceOrderProduct
 {
+    use Timestamps;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
